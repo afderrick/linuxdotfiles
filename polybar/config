@@ -1,0 +1,215 @@
+;==========================================================
+;
+;
+;   ██████╗  ██████╗ ██╗  ██╗   ██╗██████╗  █████╗ ██████╗
+;   ██╔══██╗██╔═══██╗██║  ╚██╗ ██╔╝██╔══██╗██╔══██╗██╔══██╗
+;   ██████╔╝██║   ██║██║   ╚████╔╝ ██████╔╝███████║██████╔╝
+;   ██╔═══╝ ██║   ██║██║    ╚██╔╝  ██╔══██╗██╔══██║██╔══██╗
+;   ██║     ╚██████╔╝███████╗██║   ██████╔╝██║  ██║██║  ██║
+;   ╚═╝      ╚═════╝ ╚══════╝╚═╝   ╚═════╝ ╚═╝  ╚═╝╚═╝  ╚═╝
+;
+;
+;   Modified By Aditya Shakya.
+;
+;==========================================================
+
+[color]
+
+trans = #00000000
+white = #FFFFFF
+black = #000000
+
+bg = #eeeeee
+fg = #333333
+fg-alt = #424242
+
+acolor = #1e88e5
+curgent = #e53935
+coccupied = #7cb342
+
+## Material Colors
+
+red = #e53935
+pink = #d81b60
+purple = #8e24aa
+deep-purple = #5e35b1
+indigo = #3949ab
+blue = #1e88e5
+light-blue = #039be5
+cyan = #00acc1
+teal = #00897b
+green = #43a047
+light-green = #7cb342
+lime = #c0ca33
+yellow = #fdd835
+amber = #ffb300
+orange = #fb8c00
+deep-orange = #f4511e
+brown = #6d4c41
+grey = #757575
+blue-gray = #546e7a
+
+;==========================================================
+
+[bar/top]
+monitor = DVI-0
+width = 100%
+height = 25
+bottom = false
+fixed-center = false
+line-size = 2
+
+background = ${color.bg}
+foreground = ${color.fg}
+
+border-size = 3
+border-color = ${color.bg}
+
+module-margin = 1
+
+;==========================================================
+
+font-0 = "Fira Sans:pixelsize=12;2"
+font-1 = "Material Icons:size=13;4"
+
+;==========================================================
+
+cursor-click = pointer
+cursor-scroll = ns-resize
+
+;tray-position = right
+;tray-padding = 0
+;tray-maxsize = 16
+
+scroll-up = i3wm-wsnext
+scroll-down = i3wm-wsprev
+
+;== Module Location ========================================================
+
+modules-left = workspaces term files browser spotify
+modules-right = filesystem cpu memory volume network date
+
+;== Modules ========================================================
+
+[module/cpu]
+type = internal/cpu
+interval = 0.5
+format = <label>
+label = " %percentage%%"
+
+[module/memory]
+type = internal/memory
+interval = 2
+format = <label>
+label = " %percentage_used%%"
+
+[module/filesystem]
+type = internal/fs
+mount-0 = /
+mount-1 = /mnt/Documents
+spacing = 4
+format-mounted = <label-mounted>
+label-mounted = %mountpoint%: %used%/%total%
+
+[module/spotify]
+type = custom/script
+interval = 1
+format = <label>
+exec = bash ~/.config/polybar/now_playing.sh
+
+[module/workspaces]
+type = internal/xworkspaces
+pin-workspaces = false
+enable-click = true
+enable-scroll = true
+format-padding = 0
+
+icon-0 = 1;
+icon-1 = 2;
+icon-2 = 3;
+icon-3 = 4;
+icon-4 = 5;
+icon-5 = 6;
+icon-6 = 7;
+icon-7 = 8;
+icon-8 = 9;
+icon-default =
+
+format = <label-state>
+label-active = %icon%
+label-occupied = %icon%
+label-urgent = %icon%
+label-empty = %icon%
+
+label-occupied-padding = 1
+label-empty-padding = 1
+label-urgent-padding = 1
+label-active-padding = 1
+
+label-active-foreground = ${color.acolor}
+label-urgent-foreground = ${color.curgent}
+label-empty-foreground = ${color.fg}
+label-occupied-foreground = ${color.coccupied}
+
+label-active-underline = ${color.acolor}
+label-urgent-underline = ${color.curgent}
+label-occupied-underline = ${color.coccupied}
+
+[module/term]
+type = custom/text
+content = 
+content-foreground = ${color.fg-alt}
+click-left = urxvt &
+
+[module/files]
+type = custom/text
+content = 
+content-padding = 0
+content-foreground = ${color.fg-alt}
+click-left = nautilus &
+
+[module/browser]
+type = custom/text
+content = 
+content-padding = 0
+content-foreground = ${color.fg-alt}
+click-left = chromium &
+
+;==========================================================
+
+[module/volume]
+type = internal/alsa
+;speaker-mixer = Speaker
+;headphone-mixer = Headphone
+;headphone-id = 16
+;mapped = true
+format-volume = <ramp-volume> <label-volume>
+label-volume = %percentage%%
+format-muted-prefix = " "
+label-muted = MUTE
+
+ramp-volume-0 = 
+ramp-volume-1 = 
+ramp-volume-2 = 
+ramp-volume-3 = 
+ramp-volume-4 = 
+ramp-volume-5 = 
+ramp-volume-6 = 
+
+[module/network]
+type = internal/network
+interface = enp4s0
+interval = 3.0
+ping-interval = 10
+format-connected = <label-connected>
+format-connected-prefix = "IP: "
+label-connected = %local_ip%
+
+[module/date]
+type = internal/date
+interval = 30
+label =  %time%
+time =  %H:%M %p
+time-alt =  %Y-%m-%d
+
+;== EOF ========================================================

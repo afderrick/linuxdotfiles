@@ -1,0 +1,168 @@
+[colors]
+background = #eeeeee
+foreground = #333333
+primary = #1e88e5
+secondary = #e53935
+
+[bar/top]
+monitor = DVI-0
+width = 100% 
+height = 25 
+
+background = ${colors.background} 
+foreground = ${colors.foreground} 
+
+line-color = ${colors.primary}
+line-size = 3 
+
+spacing = 1 
+padding-right = 5
+module-margin = 4
+
+font-0 = Fira Code bold:size=9;-1
+font-1 = MaterialIcons:size=10;0
+font-2 = Termsynu:size=8:antialias=false;-2
+font-3 = FontAwesome:size=10;0
+font-4 = unifont:size=6;-3
+font-6 = TermSynu:size=8:antialias=false;0
+
+modules-left = i3 spotify
+modules-right = filesystem temperature cpu cputemp memory wired-network volume date
+
+enable-ipc = true
+
+[bar/bottom]
+monitor = DVI-0
+bottom = true
+width = 100%
+height = 27
+
+background = ${bar/top.background}
+foreground = ${bar/top.foreground}
+
+line-color = ${bar/top.background}
+line-size = 2
+
+spacing = 3
+padding-right = 4
+module-margin-left = 0
+module-margin-right = 6
+
+font-0 = Fira Code bold:size=9;0
+font-1 = unifont:size=6;-3
+font-2 = FontAwesome:size=8;-2
+font-3 = NotoSans-Regular:size=8;-1
+font-4 = MaterialIcons:size=10;-1
+font-5 = Termsynu:size=8:antialias=false;0
+
+modules-left = i3
+modules-right = cpu memory
+
+[module/i3]
+type = internal/i3
+format = <label-state> <label-mode>
+
+label-mode = %index%: %icon%
+label-mode-padding = 1 
+label-mode-foreground = #000
+label-mode-background = ${colors.background}
+
+; focused = Active workspace on focused monitor
+label-focused = %index%
+label-focused-background = ${colors.background}
+label-focused-foreground = ${colors.secondary}
+label-focused-underline = ${colors.secondary}
+label-focused-padding = 1
+
+; unfocused = Inactive workspace on any monitor
+label-unfocused = %index%
+label-unfocused-background = ${colors.background} 
+label-unfocused-foreground = ${colors.primary}
+label-unfocused-padding = 1 
+
+; visible = Active workspace on unfocused monitor
+label-visible = %index%
+label-visible-background = ${colors.background}
+label-visible-underline = ${colors.secondary}
+label-visible-padding = 1
+
+; urgent = Workspace with urgency hint set
+label-urgent = %index%
+label-urgent-background = ${colors.secondary}
+label-urgent-padding = 1 
+
+[module/cpu]
+type = internal/cpu
+interval = 0.5
+format = <label> 
+label = " %percentage%%"
+
+[module/date]
+type = internal/date
+date = %m/%d/%y %H:%M%
+date-alt = %A, %d %B %Y  %H:%M:%S
+
+[module/memory]
+type = internal/memory
+interval = 2
+format = <label> 
+label = " %percentage_used%%" 
+
+[module/spotify]
+type = custom/script
+interval = 1
+format = <label>
+exec = bash ~/.config/polybar/now_playing.sh
+
+[module/wired-network]
+type = internal/network
+interface = enp4s0
+interval = 3.0
+ping-interval = 10
+format-connected = <label-connected>
+format-connected-prefix = "IP: "
+label-connected = %local_ip%
+
+[module/volume]
+type = internal/pulseaudio
+
+format-volume = <ramp-volume> <label-volume>
+label-muted =   muted
+label-muted-foreground = #66
+
+ramp-volume-0 = 
+ramp-volume-1 = 
+ramp-volume-2 = 
+ramp-volume-3 = 
+
+[module/clock]
+type = internal/date
+interval = 2
+date = %%{F#999}%Y-%m-%d%%{F-}  %%{F#fff}%H:%M%%{F-}
+
+[module/temperature]
+type = internal/temperature
+warn-temperature = 65
+
+format = <label> 
+format-warn = <label-warn>
+
+label =  %temperature-c%
+label-warn =  %temperature-c%!!!
+	
+[module/cputemp]
+type = custom/script
+exec = sensors | grep --max-count=1 "CPU Temperature:" | awk '{print substr($0,22,2)}'
+interval = 10
+label = " %output%°C"
+format-foreground = #66 
+
+[module/filesystem]
+type = internal/fs
+mount-0 = /
+mount-1 = /mnt/Documents
+spacing = 4
+format-mounted = <label-mounted>
+label-mounted = %mountpoint%: %used% / %total% 
+
+; vim:ft=dosini
